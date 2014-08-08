@@ -1,9 +1,12 @@
+
 // Set up a collection to contain player information. On the server,
 // it is backed by a MongoDB collection named "players".
 
 Players = new Meteor.Collection("players");
 
 if (Meteor.isClient) {
+  Meteor.subscribe('players');
+  
   Template.leaderboard.players = function () {
     return Players.find({}, {sort: {score: -1, name: 1}});
   };
@@ -43,5 +46,8 @@ if (Meteor.isServer) {
       for (var i = 0; i < names.length; i++)
         Players.insert({name: names[i], score: Math.floor(Random.fraction()*10)*5});
     }
+  });
+  Meteor.publish('players',function(){
+    return Players.find();
   });
 }
