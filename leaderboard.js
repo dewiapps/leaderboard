@@ -4,6 +4,11 @@
 
 Players = new Meteor.Collection("players");
 
+Players.allow({
+  insert: function() { return true; },
+  update: function() { return true; }
+});
+
 if (Meteor.isClient) {
   Meteor.subscribe('players');
   
